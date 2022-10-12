@@ -30,7 +30,7 @@ public class TaskStore {
         return task;
     }
 
-    public boolean update (Task task) {
+    public boolean update(Task task) {
         boolean rsl = false;
         try (Session session = sf.openSession()) {
             session.beginTransaction();
@@ -50,7 +50,7 @@ public class TaskStore {
 
     public List<Task> findAll() {
         List<Task> rsl;
-        try(Session session = sf.openSession()) {
+        try (Session session = sf.openSession()) {
             session.beginTransaction();
             rsl = session.createQuery("FROM Task").list();
             session.getTransaction().commit();

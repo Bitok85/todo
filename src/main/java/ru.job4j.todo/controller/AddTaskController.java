@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 @Controller
 @AllArgsConstructor
-public class addTaskController {
+public class AddTaskController {
 
     private final TaskService taskService;
 
