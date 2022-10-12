@@ -1,6 +1,7 @@
-CREATE TABLE tasks (
+CREATE TABLE task (
     id SERIAL PRIMARY KEY,
-    description TEXT,
+    name TEXT,
+    descr TEXT,
     created TIMESTAMP,
     done BOOLEAN
 );
