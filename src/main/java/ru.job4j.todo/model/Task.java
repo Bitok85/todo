@@ -16,14 +16,15 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @EqualsAndHashCode.Exclude
     private String name;
+
     @EqualsAndHashCode.Exclude
     private String descr;
 
     @EqualsAndHashCode.Exclude
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
-    private Date created = new Date(System.currentTimeMillis());
+    private LocalDateTime created = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
 
     @EqualsAndHashCode.Exclude
     private boolean done = false;

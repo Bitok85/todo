@@ -1,0 +1,55 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html" lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>TODO List</title>
+</head>
+<body>
+<div class="container">
+    <div class="card-body">
+        <div class="form-group">
+            <p><b>Название </b>
+                <span th:text="${task.name}"></span>
+            <p><b>Описание </b>
+                <span th:text="${task.descr}"></span>
+            <p><b>Статус </b>
+                <span th:if="${task.done}"><span>Выполнено</span></span>
+                <span th:if="${!task.done}"><span>Не выполнено</span></span>
+            <p><b>Создано:</b>
+            <td th:text="${#temporals.format(task.created, 'dd-MM-yyyy HH:mm')}" />
+            </p>
+            <td>
+                <form th:action="@{|/taskToDone/${task.id}|}" method="GET">
+                    <span th:if="${!task.done}">
+                        <button type="submit" class="btn btn-primary btn-info">Завершить</button>
+                    </span>
+                </form>
+                <form th:action="@{|/formUpdateTask/${task.id}|}" method="GET">
+                    <button type="submit" class="btn btn-primary btn-info">Редактировать</button>
+                </form>
+                <form th:action="@{|/deleteTask/${task.id}|}" method="GET">
+                    <button type="submit" class="btn btn-primary btn-info">Удалить</button>
+                </form>
+            </td>
+        </div>
+    </div>
+</div>
+</body>
+</html>

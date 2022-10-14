@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
@@ -40,6 +41,22 @@ public class TaskStore {
                     .setParameter("fDescr", task.getDescr())
                     .setParameter("fId", task.getId())
                     .executeUpdate() > 0;
+            session.getTransaction().commit();
+            session.close();
+        } catch (HibernateException e) {
+            LOG.error("HibernateException", e);
+        }
+        return rsl;
+    }
+
+    public Optional<Task> findById(int id) {
+        Optional<Task> rsl = Optional.empty();
+        try (Session session = sf.openSession()) {
+            session.beginTransaction();
+            Task task = (Task) session.createQuery("FROM Task WHERE id = :fId")
+                    .setParameter("fId", id)
+                    .getSingleResult();
+            rsl = Optional.of(task);
             session.getTransaction().commit();
             session.close();
         } catch (HibernateException e) {

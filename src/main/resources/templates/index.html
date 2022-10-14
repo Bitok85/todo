@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- Required meta tags -->
@@ -15,6 +15,7 @@
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <title>TODO List</title>
 </head>
@@ -48,8 +49,16 @@
             </thead>
             <tbody>
             <tr th:each="task: ${tasks}">
-                <td th:text="${task.name}" />
-                <td th:text="${task.done}" />
+                <td>
+                    <a th:href="@{|/formTaskDetails/${task.id}|}">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <span th:text="${task.name}"></span>
+                </td>
+                <td>
+                    <span th:if="${task.done}"><span>Выполнено</span></span>
+                    <span th:if="${!task.done}"><span>Не выполнено</span></span>
+                </td>
             </tr>
             </tbody>
         </table>

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.service.TaskService;
 
@@ -23,9 +22,7 @@ public class AddTaskController {
     }
 
     @PostMapping("/createTask")
-    public String create(@RequestParam("name") String name,
-                         @RequestParam("descr") String descr) {
-        Task task = new Task(name, descr);
+    public String create(@ModelAttribute Task task) {
         taskService.createTask(task);
         return "redirect:/index";
     }
