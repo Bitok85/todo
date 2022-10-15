@@ -1,13 +1,11 @@
-package ru.job4j.todo.model;
+package ru.job4j.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 
 @Entity
 @Table()

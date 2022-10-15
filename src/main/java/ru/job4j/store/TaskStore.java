@@ -1,11 +1,11 @@
-package ru.job4j.todo.store;
+package ru.job4j.store;
 
 import lombok.AllArgsConstructor;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
-import ru.job4j.todo.model.Task;
+import ru.job4j.model.Task;
 
 import org.apache.log4j.Logger;
 
@@ -26,7 +26,7 @@ public class TaskStore {
             session.getTransaction().commit();
             session.close();
         } catch (HibernateException e) {
-            LOG.error("HibernateException", e);
+            LOG.error("Task creation error", e);
         }
         return task;
     }
@@ -44,7 +44,7 @@ public class TaskStore {
             session.getTransaction().commit();
             session.close();
         } catch (HibernateException e) {
-            LOG.error("HibernateException", e);
+            LOG.error("Task update error", e);
         }
         return rsl;
     }
@@ -60,7 +60,7 @@ public class TaskStore {
             session.getTransaction().commit();
             session.close();
         } catch (HibernateException e) {
-            LOG.error("HibernateException", e);
+            LOG.error("Find task by id error", e);
         }
         return rsl;
     }
@@ -74,7 +74,7 @@ public class TaskStore {
             session.close();
             return rsl;
         } catch (HibernateException e) {
-            LOG.error("HibernateException", e);
+            LOG.error("FindAll tasks error", e);
         }
         return new ArrayList<>();
     }
@@ -90,7 +90,7 @@ public class TaskStore {
             session.getTransaction();
             session.close();
         } catch (HibernateException e) {
-            LOG.error("HibernateException", e);
+            LOG.error("FindDone tasks error", e);
         }
         return rsl;
     }
@@ -122,7 +122,7 @@ public class TaskStore {
             session.getTransaction().commit();
             session.close();
         } catch (HibernateException e) {
-            LOG.error("HibernateException", e);
+            LOG.error("Delete task error", e);
         }
         return rsl;
     }
@@ -138,7 +138,7 @@ public class TaskStore {
             session.getTransaction().commit();
             session.close();
         } catch (HibernateException e) {
-            LOG.error("HibernateException", e);
+            LOG.error("Update task to 'done' error", e);
         }
         return rsl;
     }

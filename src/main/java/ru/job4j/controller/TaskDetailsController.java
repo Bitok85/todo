@@ -1,4 +1,4 @@
-package ru.job4j.todo.controller;
+package ru.job4j.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import ru.job4j.todo.model.Task;
-import ru.job4j.todo.service.TaskService;
+import ru.job4j.model.Task;
+import ru.job4j.service.TaskService;
 
 @Controller
 @AllArgsConstructor
