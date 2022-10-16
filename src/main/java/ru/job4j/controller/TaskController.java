@@ -24,16 +24,16 @@ public class TaskController {
         return "index";
     }
 
-    @GetMapping("/todosActual")
+    @GetMapping("/actualTasks")
     public String actual(Model model) {
         model.addAttribute("actualTasks", taskService.findActual());
-        return "todosActual";
+        return "actualTasks";
     }
 
-    @GetMapping("/todosDone")
+    @GetMapping("/doneTasks")
     public String done(Model model) {
         model.addAttribute("doneTasks", taskService.findDone());
-        return "todosDone";
+        return "doneTasks";
     }
 
     @GetMapping("/addTask")
@@ -49,8 +49,8 @@ public class TaskController {
 
     @GetMapping("/formTaskDetails/{taskId}")
     public String formTaskDetails(Model model, @PathVariable("taskId") int id) {
-        taskService.updateToDone(taskService.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Задание не существует")));
+        model.addAttribute("task", taskService.updateToDone(taskService.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Задание не существует"))));
         return "taskDetails";
     }
 
@@ -69,8 +69,8 @@ public class TaskController {
 
     @GetMapping("/formUpdateTask/{taskId}")
     public String taskUpdate(Model model, @PathVariable("taskId") int id) {
-        taskService.updateToDone(taskService.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Задание не существует")));
+        model.addAttribute("task", taskService.updateToDone(taskService.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Задание не существует"))));
         return "taskUpdate";
     }
 
