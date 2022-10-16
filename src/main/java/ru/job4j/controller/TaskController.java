@@ -49,8 +49,8 @@ public class TaskController {
 
     @GetMapping("/formTaskDetails/{taskId}")
     public String formTaskDetails(Model model, @PathVariable("taskId") int id) {
-        model.addAttribute("task", taskService.updateToDone(taskService.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Задание не существует"))));
+        model.addAttribute("task", taskService.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Задание не существует")));
         return "taskDetails";
     }
 
@@ -69,8 +69,8 @@ public class TaskController {
 
     @GetMapping("/formUpdateTask/{taskId}")
     public String taskUpdate(Model model, @PathVariable("taskId") int id) {
-        model.addAttribute("task", taskService.updateToDone(taskService.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Задание не существует"))));
+        model.addAttribute("task", taskService.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Задание не существует")));
         return "taskUpdate";
     }
 
