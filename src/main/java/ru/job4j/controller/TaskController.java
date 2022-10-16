@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.model.Task;
 import ru.job4j.service.TaskService;
 
+import java.util.NoSuchElementException;
+
 @Controller
 @AllArgsConstructor
 public class TaskController {
@@ -47,7 +49,8 @@ public class TaskController {
 
     @GetMapping("/formTaskDetails/{taskId}")
     public String formTaskDetails(Model model, @PathVariable("taskId") int id) {
-        model.addAttribute("task", taskService.findById(id).get());
+        taskService.updateToDone(taskService.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Задание не существует")));
         return "taskDetails";
     }
 
@@ -59,13 +62,15 @@ public class TaskController {
 
     @GetMapping("/taskToDone/{taskId}")
     public String taskToDone(@PathVariable("taskId") int id) {
-        taskService.updateToDone(taskService.findById(id).get());
+        taskService.updateToDone(taskService.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Задание не существует")));
         return "redirect:/index";
     }
 
     @GetMapping("/formUpdateTask/{taskId}")
     public String taskUpdate(Model model, @PathVariable("taskId") int id) {
-        model.addAttribute("task", taskService.findById(id).get());
+        taskService.updateToDone(taskService.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Задание не существует")));
         return "taskUpdate";
     }
 
