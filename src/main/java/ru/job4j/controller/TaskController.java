@@ -12,9 +12,50 @@ import ru.job4j.service.TaskService;
 
 @Controller
 @AllArgsConstructor
-public class TaskDetailsController {
+public class TaskController {
 
     private final TaskService taskService;
+
+    @GetMapping("/index")
+    public String index(Model model) {
+        model.addAttribute("tasks", taskService.findAll());
+        return "index";
+    }
+
+    @GetMapping("/todosActual")
+    public String actual(Model model) {
+        model.addAttribute("actualTasks", taskService.findActual());
+        return "todosActual";
+    }
+
+    @GetMapping("/todosDone")
+    public String done(Model model) {
+        model.addAttribute("doneTasks", taskService.findDone());
+        return "todosDone";
+    }
+
+    @GetMapping("/addTask")
+    public String addTaskForm() {
+        return "addTask";
+    }
+
+    @PostMapping("/createTask")
+    public String create(@ModelAttribute Task task) {
+        taskService.createTask(task);
+        return "redirect:/index";
+    }
+
+    @GetMapping("/formTaskDetails/{taskId}")
+    public String formTaskDetails(Model model, @PathVariable("taskId") int id) {
+        model.addAttribute("task", taskService.findById(id).get());
+        return "taskDetails";
+    }
+
+
+    @PostMapping("/addTask")
+    public String addTaskButton() {
+     return "redirect:/addTask";
+ }
 
     @GetMapping("/taskToDone/{taskId}")
     public String taskToDone(@PathVariable("taskId") int id) {
