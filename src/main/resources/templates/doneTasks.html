@@ -22,14 +22,14 @@
 
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Актуальные дела</a>
+        <a class="navbar-brand" href="#">Выполненные дела</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-item nav-link" th:href="@{/index}">Все дела</a>
-                <a class="nav-item nav-link" th:href="@{/todosDone}">Выполненные</a>
+                <a class="nav-item nav-link" th:href="@{/todosActual}">Актуальные дела</a>
             </div>
         </div>
     </nav>
@@ -40,16 +40,18 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Created</th>
-                    <th scope="col">Done</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Создано</th>
+                    <th scope="col">Статус</th>
+                    <th scope="col">Исполнитель</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="task: ${actualTasks}">
+                <tr th:each="task: ${doneTasks}">
                     <td th:text="${task.name}" />
                     <td th:text="${#temporals.format(task.created, 'dd-MM-yyyy HH:mm')}" />
                     <td th:text="${task.done}" />
+                    <td th:text="${task.user.name}" />
                 </tr>
                 </tbody>
             </table>

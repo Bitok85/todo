@@ -19,7 +19,7 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>TODO List</title>
+    <title>Список дел</title>
 </head>
 <body>
 <div class="container">
@@ -32,9 +32,11 @@
             <p><b>Статус </b>
                 <span th:if="${task.done}"><span>Выполнено</span></span>
                 <span th:if="${!task.done}"><span>Не выполнено</span></span>
-            <p><b>Создано:</b>
+            <p><b>Создано</b>
             <td th:text="${#temporals.format(task.created, 'dd-MM-yyyy HH:mm')}" />
             </p>
+            <p><b>Исполнитель </b>
+                <span th:text="${task.user.name}"></span>
             <td>
                 <form th:action="@{|/taskToDone/${task.id}|}" method="GET">
                     <span th:if="${!task.done}">

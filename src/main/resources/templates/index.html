@@ -30,8 +30,17 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-item nav-link" th:href="@{/addTask}">Добавить дело</a>
-                <a class="nav-item nav-link" th:href="@{/todosActual}">Актуальные дела</a>
-                <a class="nav-item nav-link" th:href="@{/todosDone}">Выполненные дела</a>
+                <a class="nav-item nav-link" th:href="@{/actualTasks}">Актуальные дела</a>
+                <a class="nav-item nav-link" th:href="@{/doneTasks}">Выполненные дела</a>
+                <a class="nav-item nav-link" th:href="@{/regUser}">Регистрация</a>
+                <a class="nav-item nav-link" th:if="${user.name == 'Гость'}" th:href="@{/loginPage}">
+                    <span th:text="${user.name}"></span>
+                    <span> | Войти</span>
+                </a>
+                <a class="nav-item nav-link" th:if="${user.name != 'Гость'}" th:href="@{/logout}">
+                    <span th:text="${user.name}"></span>
+                    <span> | Выйти</span>
+                </a>
 
             </div>
         </div>
@@ -43,8 +52,9 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Done</th>
+                <th scope="col">Название</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Исполнитель</th>
             </tr>
             </thead>
             <tbody>
@@ -58,6 +68,9 @@
                 <td>
                     <span th:if="${task.done}"><span>Выполнено</span></span>
                     <span th:if="${!task.done}"><span>Не выполнено</span></span>
+                </td>
+                <td>
+                    <span th:text="${task.user.name}"></span>
                 </td>
             </tr>
             </tbody>

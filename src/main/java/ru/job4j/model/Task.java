@@ -27,6 +27,10 @@ public class Task {
     @EqualsAndHashCode.Exclude
     private boolean done = false;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Task() {
     }
 
@@ -39,5 +43,12 @@ public class Task {
     public Task(String name, String descr) {
         this.name = name;
         this.descr = descr;
+    }
+
+    public Task(int id, String name, String descr, User user) {
+        this.id = id;
+        this.name = name;
+        this.descr = descr;
+        this.user = user;
     }
 }
