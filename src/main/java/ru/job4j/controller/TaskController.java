@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.model.Task;
 import ru.job4j.model.User;
 import ru.job4j.service.TaskService;
+import ru.job4j.utils.UserCheck;
 
 import javax.servlet.http.HttpSession;
 import java.util.NoSuchElementException;
@@ -22,21 +23,21 @@ public class TaskController {
 
     @GetMapping("/index")
     public String index(Model model, HttpSession session) {
-        model.addAttribute("user", defineUser(session));
+        model.addAttribute("user", UserCheck.defineUser(session));
         model.addAttribute("tasks", taskService.findAll());
         return "index";
     }
 
     @GetMapping("/actualTasks")
     public String actual(Model model, HttpSession session) {
-        model.addAttribute("user", defineUser(session));
+        model.addAttribute("user", UserCheck.defineUser(session));
         model.addAttribute("actualTasks", taskService.findActual());
         return "actualTasks";
     }
 
     @GetMapping("/doneTasks")
     public String done(Model model, HttpSession session) {
-        model.addAttribute("user", defineUser(session));
+        model.addAttribute("user", UserCheck.defineUser(session));
         model.addAttribute("doneTasks", taskService.findDone());
         return "doneTasks";
     }
@@ -48,7 +49,7 @@ public class TaskController {
 
     @PostMapping("/createTask")
     public String create(@ModelAttribute Task task, HttpSession session) {
-        task.setUser(defineUser(session));
+        task.setUser(UserCheck.defineUser(session));
         taskService.createTask(task);
         return "redirect:/index";
     }
@@ -81,7 +82,7 @@ public class TaskController {
 
     @PostMapping("/taskUpdate")
     public String updateTask(@ModelAttribute Task task, HttpSession session) {
-        task.setUser(defineUser(session));
+        task.setUser(UserCheck.defineUser(session));
         taskService.update(task);
         return "redirect:/index";
     }
@@ -90,13 +91,5 @@ public class TaskController {
     public String deleteTask(@PathVariable ("taskId") int id) {
         taskService.delete(id);
         return "redirect:/index";
-    }
-
-    private User defineUser(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User("Гость");
-        }
-        return user;
     }
 }

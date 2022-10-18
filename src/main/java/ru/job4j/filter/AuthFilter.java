@@ -5,11 +5,16 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class AuthFilter implements Filter {
 
-
+    private static final Set<String> URI_END = new HashSet<>(Arrays.asList(
+            "loginPage", "login", "regUser", "registration", "index"
+    ));
     @Override
     public void doFilter(
             ServletRequest request,
@@ -18,12 +23,8 @@ public class AuthFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         String uri = req.getRequestURI();
-        if (uri.endsWith("loginPage")
-                || uri.endsWith("login")
-                || uri.endsWith("regUser")
-                || uri.endsWith("registration")
-                || uri.endsWith("index")) {
-            filterChain.doFilter(req, res);
+            if (checkUriEnd(uri)) {
+                filterChain.doFilter(req, res);
             return;
         }
         if (req.getSession().getAttribute("user") == null) {
@@ -32,5 +33,16 @@ public class AuthFilter implements Filter {
         }
         filterChain.doFilter(req, res);
 
+    }
+
+    private boolean checkUriEnd(String uri) {
+        boolean rsl = false;
+        for (String uriEnd : URI_END) {
+            if (uri.endsWith(uriEnd)) {
+                rsl = true;
+                break;
+            }
+        }
+        return rsl;
     }
 }
