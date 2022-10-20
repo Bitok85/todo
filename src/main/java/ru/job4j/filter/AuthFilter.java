@@ -35,7 +35,7 @@ public class AuthFilter implements Filter {
 
     }
 
-    private boolean checkUriEnd(String uri) {
+    /**private boolean checkUriEnd(String uri) {
         boolean rsl = false;
         for (String uriEnd : URI_END) {
             if (uri.endsWith(uriEnd)) {
@@ -44,5 +44,9 @@ public class AuthFilter implements Filter {
             }
         }
         return rsl;
+    }*/
+
+    private boolean checkUriEnd(String uri) {
+        return URI_END.stream().anyMatch(uri::endsWith);
     }
 }
