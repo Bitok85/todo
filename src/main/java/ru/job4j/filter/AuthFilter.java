@@ -35,17 +35,6 @@ public class AuthFilter implements Filter {
 
     }
 
-    /**private boolean checkUriEnd(String uri) {
-        boolean rsl = false;
-        for (String uriEnd : URI_END) {
-            if (uri.endsWith(uriEnd)) {
-                rsl = true;
-                break;
-            }
-        }
-        return rsl;
-    }*/
-
     private boolean checkUriEnd(String uri) {
         return URI_END.stream().anyMatch(uri::endsWith);
     }
