@@ -72,15 +72,14 @@ public class CrudRepository {
         return tx(command);
     }
 
-    public <T> T tx(Function<Session, T> command) {
+    public <T> T tx(final Function<Session, T> command) {
         final Session session = sf.openSession();
-        try {
-            Transaction tx = session.beginTransaction();
+        final Transaction tx = session.beginTransaction();
+        try (session) {
             T rsl = command.apply(session);
             tx.commit();
             return rsl;
-        } catch (TransactionException e) {
-            Transaction tx = session.getTransaction();
+        } catch (final Exception e) {
             if (tx.isActive()) {
                 tx.rollback();
             }
