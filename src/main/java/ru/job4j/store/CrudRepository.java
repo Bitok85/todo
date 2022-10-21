@@ -72,18 +72,18 @@ public class CrudRepository {
         return tx(command);
     }
 
-    public <T> T tx(final Function<Session, T> command) {
-        final Session session = sf.openSession();
-        final Transaction tx = session.beginTransaction();
+    public <T> T tx(Function<Session, T> command) {
+        Session session = sf.openSession();
         try (session) {
+            Transaction tx = session.beginTransaction();
             T rsl = command.apply(session);
             tx.commit();
             return rsl;
-        } catch (final Exception e) {
+        } catch (Exception e) {
+            Transaction tx = session.getTransaction();
             if (tx.isActive()) {
                 tx.rollback();
             }
-            LOG.error("Hibernate transaction exception");
             throw (e);
         }
     }

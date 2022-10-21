@@ -27,10 +27,11 @@ public class UserStore {
         return Optional.empty();
     }
 
-    public Optional<User> findByLogin(String login) {
+    public Optional<User> findByLoginAndPassword(String login, String password) {
         return crudRepository.optional(
-                "FROM User WHERE login = :fLogin", User.class,
-                Map.of("fLogin", login)
+                "FROM User WHERE login = :fLogin AND password = :fPassword",
+                User.class,
+                Map.of("fLogin", login, "fPassword", password)
         );
     }
 
