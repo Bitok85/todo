@@ -3,7 +3,7 @@ package ru.job4j.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.model.User;
-import ru.job4j.store.UserStore;
+import ru.job4j.repository.UserStore;
 
 import java.util.Optional;
 

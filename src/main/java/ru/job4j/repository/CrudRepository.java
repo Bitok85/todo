@@ -1,11 +1,10 @@
-package ru.job4j.store;
+package ru.job4j.repository;
 
 import lombok.AllArgsConstructor;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.TransactionException;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 

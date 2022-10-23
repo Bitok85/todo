@@ -32,6 +32,8 @@
             <p><b>Статус </b>
                 <span th:if="${task.done}"><span>Выполнено</span></span>
                 <span th:if="${!task.done}"><span>Не выполнено</span></span>
+            <p><b>Приоритет </b>
+                <span th:text="${task.priority.name}"></span>
             <p><b>Создано</b>
             <td th:text="${#temporals.format(task.created, 'dd-MM-yyyy HH:mm')}" />
             </p>

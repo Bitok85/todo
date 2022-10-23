@@ -1,4 +1,4 @@
-package ru.job4j.store;
+package ru.job4j.repository;
 
 import lombok.AllArgsConstructor;
 import org.apache.log4j.Logger;

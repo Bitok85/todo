@@ -1,4 +1,4 @@
-package ru.job4j.store;
+package ru.job4j.repository;
 
 import lombok.AllArgsConstructor;
 import org.hibernate.HibernateException;
@@ -36,7 +36,7 @@ public class TaskStore {
     public Optional<Task> findById(int id) {
         try {
             return crudRepository.optional(
-                    "FROM Task WHERE id = :fId", Task.class, Map.of("fId", id)
+                    "FROM Task t JOIN FETCH t.priority WHERE t.id = :fId", Task.class, Map.of("fId", id)
             );
         } catch (HibernateException e) {
             LOG.error("Find task by id error");
@@ -45,18 +45,18 @@ public class TaskStore {
     }
 
     public List<Task> findAll() {
-        return crudRepository.query("FROM Task", Task.class);
+        return crudRepository.query("FROM Task t JOIN FETCH t.priority", Task.class);
     }
 
     public List<Task> findDone() {
         return crudRepository.query(
-                "FROM Task WHERE done = :fDone", Task.class, Map.of("fDone", true)
+                "FROM Task t JOIN FETCH t.priority WHERE t.done = :fDone", Task.class, Map.of("fDone", true)
         );
     }
 
     public List<Task> findActual() {
         return crudRepository.query(
-                "FROM Task WHERE done = :fDone", Task.class, Map.of("fDone", false)
+                "FROM Task t JOIN FETCH t.priority WHERE t.done = :fDone", Task.class, Map.of("fDone", false)
         );
     }
 

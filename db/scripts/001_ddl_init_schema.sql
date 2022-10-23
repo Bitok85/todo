@@ -20,5 +20,3 @@ CREATE TABLE if not exists task (
     user_id int REFERENCES users(id),
     priority_id int REFERENCES priorities(id)
 );
-
---ALTER TABLE task ADD column user_id int REFERENCES user(id);

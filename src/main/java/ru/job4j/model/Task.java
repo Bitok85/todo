@@ -8,28 +8,29 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 @Entity
-@Table()
+@Table
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private int id;
 
-    @EqualsAndHashCode.Exclude
     private String name;
-
-    @EqualsAndHashCode.Exclude
     private String descr;
 
-    @EqualsAndHashCode.Exclude
     private LocalDateTime created = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
 
-    @EqualsAndHashCode.Exclude
     private boolean done = false;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "priority_id")
+    private Priority priority;
 
     public Task() {
     }
