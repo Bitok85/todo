@@ -6,12 +6,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.model.Task;
 import ru.job4j.model.User;
+import ru.job4j.service.CategoryService;
 import ru.job4j.service.PriorityService;
 import ru.job4j.service.TaskService;
 import ru.job4j.utils.UserCheck;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -19,6 +22,7 @@ public class TaskController {
 
     private final TaskService taskService;
     private final PriorityService priorityService;
+    private final CategoryService categoryService;
 
     @GetMapping("/index")
     public String index(Model model, HttpSession session) {
@@ -43,16 +47,26 @@ public class TaskController {
 
     @GetMapping("/addTask")
     public String addTaskForm(Model model) {
+        model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("priorities", priorityService.findAll());
         return "addTask";
     }
 
     @PostMapping("/createTask")
-    public String create(@ModelAttribute Task task, @RequestParam("priority.id") int prId, HttpSession session) {
+    public String create(@ModelAttribute Task task,
+                         @RequestParam("priority.id") int prId,
+                         @RequestParam(value = "taskCategories", required = false) List<Integer> taskCategories,
+                         HttpSession session) {
         task.setUser(UserCheck.defineUser(session));
         task.setPriority(priorityService.findById(prId)
                 .orElseThrow(() -> new NoSuchElementException("Приоритет не существует")));
+        task.setCategories(
+                taskCategories.stream()
+                        .map(catId -> categoryService.findById(catId)
+                                .orElseThrow(() -> new NoSuchElementException("Категории не существует")))
+                        .collect(Collectors.toSet()));
         taskService.createTask(task);
+
         return "redirect:/index";
     }
 

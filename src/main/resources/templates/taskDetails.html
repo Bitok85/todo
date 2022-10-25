@@ -35,6 +35,12 @@
             <p><b>Приоритет </b>
                 <span th:text="${task.priority.name}"></span>
             <p><b>Создано</b>
+            <p><b>Категории </b>
+            <td>
+                <span th:each="category: ${task.getCategories()}"
+                      th:text="${category.name}"></span>
+            </td>
+            <p><b>Создано</b>
             <td th:text="${#temporals.format(task.created, 'dd-MM-yyyy HH:mm')}" />
             </p>
             <p><b>Исполнитель </b>

@@ -45,7 +45,7 @@ public class TaskStore {
     }
 
     public List<Task> findAll() {
-        return crudRepository.query("FROM Task t JOIN FETCH t.priority", Task.class);
+        return crudRepository.query("SELECT distinct t FROM Task t JOIN FETCH t.priority", Task.class);
     }
 
     public List<Task> findDone() {
