@@ -10,8 +10,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 @Entity
 @Table
+/**
+@NamedEntityGraph(
+        name = "task-entity-graph",
+        attributeNodes = {
+                @NamedAttributeNode("categories")
+        }
+)*/
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Task {
@@ -35,7 +43,7 @@ public class Task {
     @JoinColumn(name = "priority_id")
     private Priority priority;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "task_category",
             joinColumns = { @JoinColumn(name = "task_id") },
