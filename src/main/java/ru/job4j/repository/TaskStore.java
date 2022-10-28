@@ -36,7 +36,9 @@ public class TaskStore {
     public Optional<Task> findById(int id) {
         try {
             return crudRepository.optional(
-                    "FROM Task t JOIN FETCH t.priority WHERE t.id = :fId", Task.class, Map.of("fId", id)
+                    " SELECT DISTINCT t FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories WHERE t.id = :fId",
+                    Task.class,
+                    Map.of("fId", id)
             );
         } catch (HibernateException e) {
             LOG.error("Find task by id error");
@@ -45,18 +47,24 @@ public class TaskStore {
     }
 
     public List<Task> findAll() {
-        return crudRepository.query("SELECT distinct t FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories", Task.class);
+        return crudRepository.query(
+                "SELECT distinct t FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories", Task.class
+        );
     }
 
     public List<Task> findDone() {
         return crudRepository.query(
-                "FROM Task t JOIN FETCH t.priority WHERE t.done = :fDone", Task.class, Map.of("fDone", true)
+                "SELECT DISTINCT t FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories WHERE t.done = :fDone",
+                Task.class,
+                Map.of("fDone", true)
         );
     }
 
     public List<Task> findActual() {
         return crudRepository.query(
-                "FROM Task t JOIN FETCH t.priority WHERE t.done = :fDone", Task.class, Map.of("fDone", false)
+                "SELECT DISTINCT t FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories WHERE t.done = :fDone",
+                Task.class,
+                Map.of("fDone", false)
         );
     }
 
