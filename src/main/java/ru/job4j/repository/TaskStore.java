@@ -14,6 +14,14 @@ import java.util.Optional;
 @Repository
 @AllArgsConstructor
 public class TaskStore {
+    private static final String FIND_ALL
+            = "SELECT distinct t FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories";
+    private static final String FIND_BY_ID
+            = "SELECT DISTINCT t FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories WHERE t.id = :fId";
+    private static final String SELECT_DONE_COLUMN
+            = "SELECT DISTINCT t FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories WHERE t.done = :fDone";
+    private static final String UPDATE_TO_DONE = "UPDATE Task SET done = :fDone WHERE id = :fId";
+    private static final String DELETE = "DELETE Task WHERE id = :fId";
     private static final Logger LOG = Logger.getLogger(TaskStore.class.getName());
 
     private final CrudRepository crudRepository;
@@ -35,11 +43,7 @@ public class TaskStore {
 
     public Optional<Task> findById(int id) {
         try {
-            return crudRepository.optional(
-                    " SELECT DISTINCT t FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories WHERE t.id = :fId",
-                    Task.class,
-                    Map.of("fId", id)
-            );
+            return crudRepository.optional(FIND_BY_ID, Task.class, Map.of("fId", id));
         } catch (HibernateException e) {
             LOG.error("Find task by id error");
         }
@@ -47,33 +51,21 @@ public class TaskStore {
     }
 
     public List<Task> findAll() {
-        return crudRepository.query(
-                "SELECT distinct t FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories", Task.class
-        );
+        return crudRepository.query(FIND_ALL, Task.class);
     }
 
     public List<Task> findDone() {
-        return crudRepository.query(
-                "SELECT DISTINCT t FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories WHERE t.done = :fDone",
-                Task.class,
-                Map.of("fDone", true)
-        );
+        return crudRepository.query(SELECT_DONE_COLUMN, Task.class, Map.of("fDone", true));
     }
 
     public List<Task> findActual() {
-        return crudRepository.query(
-                "SELECT DISTINCT t FROM Task t JOIN FETCH t.priority JOIN FETCH t.categories WHERE t.done = :fDone",
-                Task.class,
-                Map.of("fDone", false)
-        );
+        return crudRepository.query(SELECT_DONE_COLUMN, Task.class, Map.of("fDone", false));
     }
 
     public boolean delete(int id) {
         boolean rsl = false;
         try {
-            crudRepository.run(
-                    "DELETE Task WHERE id = :fId", Map.of("fId", id)
-            );
+            crudRepository.run(DELETE, Map.of("fId", id));
             rsl = true;
         } catch (HibernateException e) {
             LOG.error("Task delete error");
@@ -84,8 +76,7 @@ public class TaskStore {
     public boolean updateToDone(Task task) {
         boolean rsl = false;
         try {
-            crudRepository.run("UPDATE Task SET done = :fDone WHERE id = :fId",
-                    Map.of("fDone", true, "fId", task.getId()));
+            crudRepository.run(UPDATE_TO_DONE, Map.of("fDone", true, "fId", task.getId()));
             rsl = true;
         } catch (HibernateException e) {
             LOG.error("Update task to done error");
