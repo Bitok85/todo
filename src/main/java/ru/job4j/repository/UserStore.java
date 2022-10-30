@@ -5,7 +5,9 @@ import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.springframework.stereotype.Repository;
 import ru.job4j.model.User;
+import ru.job4j.utils.TimeZonesStore;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -33,6 +35,10 @@ public class UserStore {
                 User.class,
                 Map.of("fLogin", login, "fPassword", password)
         );
+    }
+
+    public Map<String, String> timeZones() {
+        return TimeZonesStore.mapOfTZ();
     }
 
 }

@@ -46,11 +46,15 @@ public class UserController {
     @GetMapping("/regUser")
     public String regUser(Model model, @RequestParam (name = "fail", required = false) Boolean fail) {
         model.addAttribute("fail", fail != null);
+        model.addAttribute("timeZones", userService.timeZones());
         return "regUser";
     }
 
     @PostMapping("/registration")
-    public String registration(@ModelAttribute User user, HttpServletRequest request) {
+    public String registration(@ModelAttribute User user,
+                               @RequestParam ("timeZone.id") String timeZone,
+                               HttpServletRequest request) {
+        user.setTimeZone(timeZone);
         Optional<User> userDb = userService.addUser(user);
         if (userDb.isEmpty()) {
             return "redirect:/regUser?fail=true";

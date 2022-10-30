@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table (name = "users")
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +21,9 @@ public class User {
 
     @EqualsAndHashCode.Exclude
     private String password;
+
+    @EqualsAndHashCode.Exclude
+    private String timeZone;
 
     public User() {
     }

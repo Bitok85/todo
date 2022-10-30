@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.job4j.model.User;
 import ru.job4j.repository.UserStore;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -19,5 +20,9 @@ public class UserService {
 
     public Optional<User> findByLoginAndPassword(String login, String password) {
         return store.findByLoginAndPassword(login, password);
+    }
+
+    public Map<String, String> timeZones() {
+        return store.timeZones();
     }
 }
